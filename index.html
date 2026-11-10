@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Конструктор векторных иллюстраций из готовых объектов">
+  <title>Сборка — конструктор иллюстраций</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="assets/catalog.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./index.html"><span class="mark" aria-hidden="true">✳</span> Сборка</a>
+    <span class="subtitle">Конструктор иллюстраций</span>
+    <button id="export" class="primary export" type="button">Скачать SVG <span aria-hidden="true">↓</span></button>
+  </header>
+
+  <main class="editor">
+    <aside class="catalog panel" aria-labelledby="catalog-title">
+      <div class="section-heading">
+        <h2 id="catalog-title">Объекты</h2><span id="catalog-count" class="badge"></span>
+      </div>
+      <p class="hint">Нажмите на объект, чтобы добавить его на холст.</p>
+      <div id="library" class="library"></div>
+    </aside>
+
+    <section class="workspace" aria-label="Композиция">
+      <form id="compose" class="panel compose">
+        <div class="section-heading"><h1>Соберите иллюстрацию</h1></div>
+        <div class="compose-row">
+          <label class="sr-only" for="mode">Способ сборки</label>
+          <select id="mode">
+            <option value="title">По заголовку</option>
+            <option value="names">По объектам</option>
+          </select>
+          <label class="sr-only" for="prompt">Заголовок или список объектов</label>
+          <input id="prompt" type="text" placeholder="Например, вечернее чтение" required>
+          <button class="primary" type="submit">Собрать</button>
+        </div>
+        <div class="compose-foot">
+          <div id="examples" class="examples" aria-label="Примеры">
+            <button type="button" data-example="reading">Вечернее чтение</button>
+            <button type="button" data-example="team">Вместе решаем задачи</button>
+            <button type="button" data-example="budget">Кошелёк, монета, папка</button>
+          </div>
+          <p id="message" class="message" aria-live="polite"></p>
+        </div>
+      </form>
+
+      <div class="artboard">
+        <div class="artboard-bar">
+          <span class="artboard-label"><span aria-hidden="true">▧</span> Холст</span>
+          <span id="dimensions" class="badge"></span>
+        </div>
+        <div id="stage-wrap">
+          <svg id="stage" xmlns="http://www.w3.org/2000/svg" aria-label="Холст иллюстрации">
+            <g id="scene"></g>
+            <rect id="selection" hidden pointer-events="none"></rect>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <aside class="inspector panel" aria-label="Настройки и слои">
+      <section class="settings">
+        <h2>Настройки</h2>
+        <div class="fields">
+          <label>Формат
+            <select id="format">
+              <option value="square">Квадрат · 1:1</option>
+              <option value="wide">Горизонталь · 16:9</option>
+              <option value="tall">Вертикаль · 4:5</option>
+            </select>
+          </label>
+          <label>Детализация
+            <select id="detail">
+              <option value="L">L · полная</option>
+              <option value="S">S · упрощённая</option>
+            </select>
+          </label>
+        </div>
+        <fieldset>
+          <legend>Цветовая схема</legend>
+          <div id="palettes" class="palettes"></div>
+        </fieldset>
+        <details class="custom">
+          <summary>Загрузить свою палитру</summary>
+          <p class="hint">JSON с двумя наборами по четыре HEX-цвета.</p>
+          <button id="palette-template" type="button">Скачать пример JSON</button>
+          <label class="sr-only" for="palette-file">Файл палитры</label>
+          <input id="palette-file" type="file" accept=".json,application/json">
+          <p id="palette-error" class="message" aria-live="polite"></p>
+        </details>
+      </section>
+      <section class="layer-section">
+        <div class="section-heading"><h2>Слои</h2><span id="layer-count" class="badge"></span></div>
+        <ol id="layers" class="layers" aria-label="Слои от переднего к заднему"></ol>
+        <p id="empty" class="hint" hidden>Добавьте объект из библиотеки.</p>
+        <div id="layer-tools" hidden>
+          <div class="fields">
+            <label>Роль
+              <select id="role">
+                <option value="main">Главный</option>
+                <option value="background">Фоновый</option>
+              </select>
+            </label>
+            <label>Поворот, °
+              <input id="angle" type="number" value="0" step="1">
+            </label>
+          </div>
+          <div class="actions">
+            <button type="button" id="raise" title="Поднять слой" aria-label="Поднять слой">↑</button>
+            <button type="button" id="lower" title="Опустить слой" aria-label="Опустить слой">↓</button>
+            <button type="button" id="duplicate">Копия</button>
+            <button type="button" id="remove">Удалить</button>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
